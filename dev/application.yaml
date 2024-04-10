@@ -61,7 +61,7 @@ spec:
             memory: "4Gi"
             cpu: "4"
           requests:
-            memory: "2Gi"
+            memory: "0.5Gi"
             cpu: "2"      
         volumeMounts:
         - name: config-volume
