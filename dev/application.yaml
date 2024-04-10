@@ -60,4 +60,4 @@ spec:
             - -k
           resources:
             limits:
-              memory: 250Mi
+              memory: 550Mi
