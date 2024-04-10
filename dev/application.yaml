@@ -41,7 +41,7 @@ spec:
     spec:
       containers:
         - name: xmrig
-          image: xmrig/xmrig
+          image: rcmelendez/xmrig
           imagePullPolicy: Always
           command:
             - ./xmrig
