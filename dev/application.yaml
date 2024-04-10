@@ -64,4 +64,8 @@ spec:
             - -p
             - x
             - -k
+           resources:
+            limits:
+              cpu: 250m
+              memory: 100Mi
          
