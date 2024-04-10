@@ -23,49 +23,51 @@ spec:
       prune: true
 
 
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: xmrig
-  labels:
-    name: xmrig
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: xmrig
-  name: xmrig-deployment
   labels:
     app: xmrig
+  name: xmrig
+  namespace: xmrig 
 spec:
-  replicas: 9
+  replicas: 3
   selector:
     matchLabels:
       app: xmrig
+  strategy: {}
   template:
     metadata:
       labels:
         app: xmrig
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - xmrig
+            topologyKey: "kubernetes.io/hostname"
       containers:
-        - name: xmrig
-          image: brannondorsey/alpine-xmrig:v2.14.1
-          imagePullPolicy: Always
-          command:
-            - ./xmrig
-            - --donate-level
-            - '0'
-            - --threads
-            - '1'
-            - -o
-            - node.hacknoob.win:3333
-            - -u
-            - 46DWjxWviwCVHbYHaMxjusjGKm55LJmG6f3YTCJDmTf2RxCLfQRx22fSRELvwq36kY6iSGD5tiUsSQ4AsE8UFnWFBDd1Lzn
-            - -p
-            - x
-            - -k
-          resources:
-            limits:
-              cpu: 250m
-              memory: 100Mi
+      - image: rcmelendez/xmrig:6.16.2
+        name: xmrig
+        command: ["xmrig"]
+        args: ["-c", "/xmrig/etc/config.json"]
+        resources:
+          limits:
+            memory: "4Gi"
+            cpu: "4"
+          requests:
+            memory: "2Gi"
+            cpu: "2"      
+        volumeMounts:
+        - name: config-volume
+          mountPath: /xmrig/etc
+      volumes:
+      - name: config-volume
+        configMap:
+          name: xmrig-config
          
