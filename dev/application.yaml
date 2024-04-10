@@ -47,8 +47,6 @@ spec:
             - ./xmrig
             - --donate-level
             - '0'
-            - --max-cpu-usage
-            - '50'
             - --threads
             - '1'
             - -o
@@ -58,6 +56,4 @@ spec:
             - -p
             - x
             - -k
-          resources:
-            limits:
-              memory: 1000Mi
+         
