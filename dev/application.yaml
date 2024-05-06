@@ -22,6 +22,13 @@ spec:
       selfHeal: true
       prune: true
 
-
-
-         
+  # Node affinity to run only on the master node
+  podSpecPatch: |
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/master
+                operator: Exists
